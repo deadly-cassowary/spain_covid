@@ -17,6 +17,8 @@ I_WANT_TO_DOWNLOAD_RAW_VACCINE_FILES = True
 I_WANT_TO_EXTRACT_TOTAL_VACCINES_RATE = True
 I_WANT_TO_PLOT_VACCINES_VS_CASES_LINEAR = True
 
+SPAIN_FOLDER = "" # Files will be doanloaded and read from here
+
 # Constants
 VACCINES_FILE_NAME = "Informe_Comunicacion_{0}.ods"
 VACCINES_WEBSITE = "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/"
@@ -24,7 +26,6 @@ VACCINES_SHEET_NAME = "Etarios_con_pauta_completa"
 VACCINES_ROW = "Total España"
 VACCINES_COL = "% pauta completa sobre Población a Vacunar INE"
 
-SPAIN_FOLDER = "C:\DAVID\COVID\Spain\\"
 
 OUTPUT_COL_DATE = "Date"
 OUTPUT_COL_VACCINATED = "Vaccinated"
