@@ -15,9 +15,11 @@ DATE_FORMAT = "%Y-%m-%d"
 
 I_WANT_TO_DOWNLOAD_RAW_VACCINE_FILES = True
 I_WANT_TO_EXTRACT_TOTAL_VACCINES_RATE = True
+I_WANT_TO_DOWNLOAD_RAW_CASES_FILE = True
 I_WANT_TO_PLOT_VACCINES_VS_CASES_LINEAR = True
 
-SPAIN_FOLDER = "" # Files will be doanloaded and read from here
+SPAIN_FOLDER = ""
+
 
 # Constants
 VACCINES_FILE_NAME = "Informe_Comunicacion_{0}.ods"
@@ -26,6 +28,7 @@ VACCINES_SHEET_NAME = "Etarios_con_pauta_completa"
 VACCINES_ROW = "Total España"
 VACCINES_COL = "% pauta completa sobre Población a Vacunar INE"
 
+CASES_WEBSITE = "https://cnecovid.isciii.es/covid19/resources/"
 
 OUTPUT_COL_DATE = "Date"
 OUTPUT_COL_VACCINATED = "Vaccinated"
@@ -43,10 +46,10 @@ def download_vaccination_files(from_date, to_date):
         try:
             file_name = VACCINES_FILE_NAME.format(from_date.strftime("%Y%m%d"))
             downloaded_obj = requests.get(VACCINES_WEBSITE+file_name, allow_redirects=True)
-            with open(SPAIN_FOLDER+file_name, "w") as file:
+            with open(SPAIN_FOLDER+file_name, "wb") as file:
                 file.write(downloaded_obj.content)
         except Exception as ex:
-            print("Exception downloading file for %s: %s" % (from_date.strftime(DATE_FORMAT), str(ex)))
+            print("Exception downloading vaccination file for %s: %s" % (from_date.strftime(DATE_FORMAT), str(ex)))
         from_date = from_date + date_offset
 
 
@@ -68,6 +71,16 @@ def process_vaccionation_files():
             writer.writerows(values)
     except IOError:
         print("I/O Error")
+
+
+# Downloads cases file
+def download_cases_file():
+    try:
+        downloaded_obj = requests.get(CASES_WEBSITE + CASES_FILE, allow_redirects=True)
+        with open(SPAIN_FOLDER + CASES_FILE, "wb") as file:
+            file.write(downloaded_obj.content)
+    except Exception as ex:
+        print("Exception downloading cases file: %s" % (str(ex)))
 
 
 # Uses vaccination csv file and cases file to plot linear progression
@@ -104,6 +117,10 @@ if __name__ == "__main__":
     if I_WANT_TO_EXTRACT_TOTAL_VACCINES_RATE:
         process_vaccionation_files()
         print("Vaccination raw files processed")
+
+    if I_WANT_TO_DOWNLOAD_RAW_CASES_FILE:
+        download_cases_file()
+        print("Cases raw file downloaded")
 
     if I_WANT_TO_PLOT_VACCINES_VS_CASES_LINEAR:
         plot_vaccines_vs_cases_linear()
