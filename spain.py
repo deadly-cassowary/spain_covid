@@ -97,7 +97,7 @@ if __name__ == "__main__":
     start_date = dt.datetime.strptime(START_DATE, DATE_FORMAT)
     end_date = dt.datetime.strptime(END_DATE, DATE_FORMAT)
 
-    if I_WANT_TO_DOWNLOAD_RAW_VACCINE_FILES
+    if I_WANT_TO_DOWNLOAD_RAW_VACCINE_FILES:
         download_vaccination_files(start_date, end_date)
         print("Vaccination raw files downloaded")
 
