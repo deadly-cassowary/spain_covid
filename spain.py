@@ -123,6 +123,7 @@ def plot_vaccines_vs_cases_correlation():
     vaccines_no_empty_days = get_vaccines().fillna(method='ffill')  # Dunno if there's a better way to fill the gaps
     cases_raw = get_cases()
     # I use only the cases for which we have a valid vaccination % (I know it's lazy and I could do better but shouldn't impact result too much)
+    # This is done in order to get similar size arrays for correlation
     filter_from_date = cases_raw["DATE_TIME"].isin(vaccines_no_empty_days["DATE_TIME"].values)
     cases_values = cases_raw[filter_from_date].groupby(["DATE_TIME"]).sum()[CASES_COL_CASES].values
     vaccines_values = vaccines_no_empty_days[OUTPUT_COL_VACCINATED].values
